@@ -22,8 +22,8 @@ const registerSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   phone: z.string().optional(),
-  role: z.enum(['VENDOR', 'CLIENT'] as const, {
-    errorMap: () => ({ message: 'Please select a role' }),
+  role: z.enum(['VENDOR', 'CLIENT'], {
+    message: 'Please select a role',
   }),
   terms: z.boolean().refine(val => val === true, {
     message: 'You must agree to the terms and conditions',
@@ -37,13 +37,13 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 const roleOptions = [
   {
-    value: 'CLIENT' as UserRole,
+    value: 'CLIENT' as const,
     title: 'Client',
     description: 'I want to find and hire event organizers',
     icon: '👤',
   },
   {
-    value: 'VENDOR' as UserRole,
+    value: 'VENDOR' as const,
     title: 'Vendor',
     description: 'I provide event organizing services',
     icon: '🏪',

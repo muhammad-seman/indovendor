@@ -1,5 +1,8 @@
 export type UserRole = 'SUPERADMIN' | 'VENDOR' | 'CLIENT';
 
+// Re-export permission types
+export * from './permissions';
+
 export interface User {
   id: string;
   email: string;
@@ -9,6 +12,7 @@ export interface User {
   isVerified: boolean;
   createdAt: string;
   updatedAt: string;
+  profile?: UserProfile;
 }
 
 export interface UserProfile {
