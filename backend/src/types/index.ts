@@ -26,3 +26,6 @@ export interface ApiResponse<T = any> {
   data?: T;
   errors?: string[];
 }
+
+// Re-export permission types
+export * from './permissions';
