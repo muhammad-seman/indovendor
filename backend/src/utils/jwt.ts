@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { UserRole } from '@prisma/client';
 
 export interface JwtPayload {
@@ -27,7 +27,7 @@ export class JwtUtil {
    * Generate access token (short-lived)
    */
   static generateAccessToken(payload: Omit<JwtPayload, 'iat' | 'exp'>): string {
-    return jwt.sign(payload, this.ACCESS_TOKEN_SECRET, {
+    return (jwt.sign as any)(payload, this.ACCESS_TOKEN_SECRET, {
       expiresIn: this.ACCESS_TOKEN_EXPIRES_IN,
       issuer: 'indovendor-api',
       audience: 'indovendor-client',
@@ -38,7 +38,7 @@ export class JwtUtil {
    * Generate refresh token (long-lived)
    */
   static generateRefreshToken(payload: Omit<JwtPayload, 'iat' | 'exp'>): string {
-    return jwt.sign(payload, this.REFRESH_TOKEN_SECRET, {
+    return (jwt.sign as any)(payload, this.REFRESH_TOKEN_SECRET, {
       expiresIn: this.REFRESH_TOKEN_EXPIRES_IN,
       issuer: 'indovendor-api',
       audience: 'indovendor-client',
