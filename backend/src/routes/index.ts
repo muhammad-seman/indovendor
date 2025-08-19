@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { checkDatabaseHealth } from '@/utils/db-test';
 import authRoutes from './auth';
+import profileRoutes from './profile';
 
 const router = Router();
 
@@ -33,6 +34,7 @@ router.get('/health/database', async (req, res) => {
 
 // Use route modules
 router.use('/auth', authRoutes);
+router.use('/profile', profileRoutes);
 
 // TODO: Add more route imports and usage here
 // import userRoutes from './users';

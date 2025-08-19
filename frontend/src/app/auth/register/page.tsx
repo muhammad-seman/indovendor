@@ -102,16 +102,76 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ backgroundColor: '#FEFEFE' }}>
+      
+      {/* Modern Batik Pattern Background */}
+      <div 
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 25% 25%, #DFD0B8 0%, transparent 50%),
+            radial-gradient(circle at 75% 25%, #EEEBE5 0%, transparent 50%),
+            radial-gradient(circle at 25% 75%, #F4F2EE 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, #E7E3DA 0%, transparent 50%),
+            linear-gradient(135deg, transparent 25%, #DFD0B8 25%, #DFD0B8 50%, transparent 50%, transparent 75%, #EEEBE5 75%),
+            linear-gradient(45deg, transparent 25%, #F4F2EE 25%, #F4F2EE 50%, transparent 50%, transparent 75%, #E7E3DA 75%)
+          `,
+          backgroundSize: '100px 100px, 100px 100px, 100px 100px, 100px 100px, 60px 60px, 60px 60px',
+          backgroundPosition: '0 0, 50px 0, 0 50px, 50px 50px, 0 0, 30px 30px'
+        }}
+      />
+      
+      {/* Decorative Elements - Different position than login */}
+      <div className="absolute top-20 right-10 w-24 h-24 opacity-10">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="50,5 62,35 95,35 75,57 85,90 50,75 15,90 25,57 5,35 38,35" fill="#948979"/>
+        </svg>
+      </div>
+      
+      <div className="absolute bottom-16 left-8 w-20 h-20 opacity-10">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="80" height="80" rx="20" stroke="#222831" strokeWidth="2" fill="none"/>
+          <circle cx="50" cy="50" r="15" fill="#DFD0B8"/>
+          <circle cx="30" cy="30" r="5" fill="#393E46"/>
+          <circle cx="70" cy="30" r="5" fill="#393E46"/>
+        </svg>
+      </div>
+      
+      <div className="absolute top-1/3 left-1/5 w-10 h-10 opacity-12 transform rotate-12">
+        <div 
+          className="w-full h-full rounded-full" 
+          style={{ backgroundColor: '#948979' }}
+        ></div>
+      </div>
+      
+      <div className="absolute bottom-1/3 right-1/5 w-6 h-6 opacity-15 transform -rotate-12">
+        <div 
+          className="w-full h-full" 
+          style={{ 
+            backgroundColor: '#393E46',
+            clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+          }}
+        ></div>
+      </div>
+
+      {/* Register Card with Glass Effect */}
+      <div className="max-w-md w-full relative z-10">
+        <div 
+          className="p-8 rounded-2xl shadow-2xl border backdrop-blur-sm"
+          style={{ 
+            backgroundColor: 'rgba(249, 248, 246, 0.85)',
+            borderColor: 'rgba(223, 208, 184, 0.3)',
+            boxShadow: '0 25px 50px -12px rgba(34, 40, 49, 0.25), 0 0 0 1px rgba(223, 208, 184, 0.1)'
+          }}
+        >
         <div>
-          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-100">
-            <span className="text-2xl font-bold text-blue-600">IV</span>
+          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary-800">
+            <span className="text-2xl font-bold text-accent-50">IV</span>
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold" style={{ color: '#222831' }}>
             Join IndoVendor
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm" style={{ color: '#525252' }}>
             Create your account to get started
           </p>
         </div>
@@ -315,14 +375,21 @@ export default function RegisterPage() {
 
           {/* Login Link */}
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm" style={{ color: '#525252' }}>
               Already have an account?{' '}
-              <Link href="/auth/login" className="font-medium text-blue-600 hover:text-blue-500">
+              <Link 
+                href="/auth/login" 
+                className="font-medium hover:underline transition-colors"
+                style={{ color: '#222831' }}
+                onMouseEnter={(e) => e.target.style.color = '#393E46'}
+                onMouseLeave={(e) => e.target.style.color = '#222831'}
+              >
                 Sign in here
               </Link>
             </p>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );

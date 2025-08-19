@@ -109,3 +109,62 @@ export interface PaginatedResponse<T> {
   hasNext: boolean;
   hasPrev: boolean;
 }
+
+// Profile-related types
+export interface UserWithProfile extends User {
+  profile?: UserProfile;
+  vendor?: Vendor;
+  profileCompleteness?: ProfileCompleteness;
+}
+
+export interface ProfileCompleteness {
+  percentage: number;
+  missingFields: string[];
+}
+
+export interface UpdateUserProfileRequest {
+  firstName?: string;
+  lastName?: string;
+  provinceId?: string;
+  regencyId?: string;
+  districtId?: string;
+  villageId?: string;
+  fullAddress?: string;
+  birthDate?: string;
+  gender?: 'MALE' | 'FEMALE' | 'OTHER';
+}
+
+// Indonesian Regions types
+export interface Province {
+  id: string;
+  name: string;
+  code: string;
+}
+
+export interface Regency {
+  id: string;
+  name: string;
+  code: string;
+  provinceId: string;
+}
+
+export interface District {
+  id: string;
+  name: string;
+  code: string;
+  regencyId: string;
+}
+
+export interface Village {
+  id: string;
+  name: string;
+  code: string;
+  districtId: string;
+}
+
+export interface RegionData {
+  provinces: Province[];
+  regencies: Regency[];
+  districts: District[];
+  villages: Village[];
+}

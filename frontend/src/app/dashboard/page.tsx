@@ -3,16 +3,15 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { useRole } from '../../hooks/usePermissions';
 import ProtectedRoute from '../../components/common/ProtectedRoute';
+import DashboardLayout, { DashboardCard, ActionButton } from '../../components/layout/DashboardLayout';
+import { COLORS } from '../../constants/theme';
 
 function DashboardContent() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const { role } = useRole();
   const router = useRouter();
-
-  const handleLogout = async () => {
-    await logout();
-    router.push('/');
-  };
 
   const getRoleDisplayName = (role: string) => {
     switch (role) {
@@ -27,204 +26,299 @@ function DashboardContent() {
     }
   };
 
-  const getRoleDashboardLinks = (role: string) => {
+  const getDashboardData = () => {
     switch (role) {
       case 'SUPERADMIN':
-        return [
-          { name: 'User Management', href: '/admin/users', icon: '👥' },
-          { name: 'Vendor Verification', href: '/admin/vendors', icon: '✅' },
-          { name: 'Transaction Monitor', href: '/admin/transactions', icon: '💰' },
-          { name: 'Dispute Resolution', href: '/admin/disputes', icon: '⚖️' },
-          { name: 'Analytics', href: '/admin/analytics', icon: '📊' },
-        ];
+        return {
+          title: 'Admin Dashboard',
+          subtitle: 'Monitor and manage the IndoVendor platform',
+          metrics: [
+            { title: 'Total Users', value: '1,234', icon: '👥', trend: 'up', trendValue: '+12%' },
+            { title: 'Active Vendors', value: '456', icon: '🏪', trend: 'up', trendValue: '+8%' },
+            { title: 'Monthly Revenue', value: 'Rp 125M', icon: '💰', trend: 'up', trendValue: '+15%' },
+            { title: 'Pending Disputes', value: '12', icon: '⚖️', trend: 'down', trendValue: '-3%' },
+          ],
+          actions: [
+            { name: 'User Management', href: '/admin/users', icon: '👥', available: true },
+            { name: 'Vendor Verification', href: '#', icon: '✅', available: false },
+            { name: 'Transaction Monitor', href: '#', icon: '💰', available: false },
+            { name: 'System Analytics', href: '#', icon: '📊', available: false },
+          ]
+        };
+        
       case 'VENDOR':
-        return [
-          { name: 'My Products', href: '/vendor/products', icon: '📦' },
-          { name: 'Orders', href: '/vendor/orders', icon: '📋' },
-          { name: 'Business Profile', href: '/vendor/profile', icon: '🏪' },
-          { name: 'Financial Reports', href: '/vendor/finances', icon: '💰' },
-          { name: 'Featured Products', href: '/vendor/featured', icon: '⭐' },
-        ];
+        return {
+          title: 'Business Dashboard',
+          subtitle: 'Manage your services and grow your business',
+          metrics: [
+            { title: 'Total Bookings', value: '28', icon: '📋', trend: 'up', trendValue: '+5' },
+            { title: 'Monthly Revenue', value: 'Rp 15M', icon: '💎', trend: 'up', trendValue: '+20%' },
+            { title: 'Client Rating', value: '4.8', icon: '⭐', trend: 'neutral', trendValue: '4.8/5' },
+            { title: 'Active Services', value: '12', icon: '📦', trend: 'neutral', trendValue: '12 live' },
+          ],
+          actions: [
+            { name: 'Business Profile', href: '/vendor/profile', icon: '🏢', available: true },
+            { name: 'My Services', href: '#', icon: '📦', available: false },
+            { name: 'Order Management', href: '#', icon: '📋', available: false },
+            { name: 'Financial Reports', href: '#', icon: '💰', available: false },
+          ]
+        };
+        
       case 'CLIENT':
-        return [
-          { name: 'Browse Vendors', href: '/client/browse', icon: '🔍' },
-          { name: 'My Orders', href: '/client/orders', icon: '📋' },
-          { name: 'Favorites', href: '/client/favorites', icon: '❤️' },
-          { name: 'Event Planning', href: '/client/events', icon: '🎉' },
-          { name: 'Reviews', href: '/client/reviews', icon: '⭐' },
-        ];
+        return {
+          title: 'Event Planning Dashboard', 
+          subtitle: 'Plan your perfect event with trusted vendors',
+          metrics: [
+            { title: 'Upcoming Events', value: '3', icon: '🎉', trend: 'neutral', trendValue: '3 planned' },
+            { title: 'Booked Vendors', value: '8', icon: '🏪', trend: 'up', trendValue: '+2' },
+            { title: 'Total Spent', value: 'Rp 45M', icon: '💳', trend: 'neutral', trendValue: 'This year' },
+            { title: 'Saved Favorites', value: '24', icon: '❤️', trend: 'up', trendValue: '+5' },
+          ],
+          actions: [
+            { name: 'Browse Vendors', href: '#', icon: '🔍', available: false },
+            { name: 'My Bookings', href: '#', icon: '📝', available: false },
+            { name: 'Event Planning', href: '#', icon: '🎊', available: false },
+            { name: 'Write Reviews', href: '#', icon: '⭐', available: false },
+          ]
+        };
+        
       default:
-        return [];
+        return {
+          title: 'Dashboard',
+          subtitle: 'Welcome to IndoVendor',
+          metrics: [],
+          actions: []
+        };
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation Header */}
-      <nav className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 flex items-center">
-                <div className="h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">IV</span>
-                </div>
-                <span className="ml-2 text-xl font-bold text-gray-900">IndoVendor</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 bg-gray-200 rounded-full flex items-center justify-center">
-                  <span className="text-gray-600 text-sm">
-                    {user?.profile?.firstName?.[0] || user?.email[0].toUpperCase()}
-                  </span>
-                </div>
-                <div className="hidden md:block">
-                  <p className="text-sm font-medium text-gray-900">
-                    {user?.profile?.firstName && user?.profile?.lastName 
-                      ? `${user.profile.firstName} ${user.profile.lastName}`
-                      : user?.email
-                    }
-                  </p>
-                  <p className="text-xs text-gray-500">{getRoleDisplayName(user?.role || '')}</p>
-                </div>
-              </div>
-              
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+  const dashboardData = getDashboardData();
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        {/* Welcome Section */}
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                Welcome back, {user?.profile?.firstName || 'User'}! 👋
-              </h1>
-              <p className="text-gray-600 mb-4">
-                You're logged in as a <strong>{getRoleDisplayName(user?.role || '')}</strong>
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Dashboard' },
+  ];
+
+  const headerActions = (
+    <div className="flex items-center space-x-3">
+      <ActionButton
+        variant="outline"
+        size="sm"
+        onClick={() => router.push(`/${role?.toLowerCase()}/profile`)}
+      >
+        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        Profile Settings
+      </ActionButton>
+      
+      <ActionButton
+        variant="primary"
+        size="sm"
+        onClick={() => {
+          // Navigate to main action based on role
+          const mainActions = {
+            'SUPERADMIN': '/admin/users',
+            'VENDOR': '/vendor/profile', 
+            'CLIENT': '#'
+          };
+          router.push(mainActions[role as keyof typeof mainActions] || '#');
+        }}
+      >
+        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        {role === 'SUPERADMIN' ? 'Manage Users' : 
+         role === 'VENDOR' ? 'Complete Profile' : 
+         'Browse Vendors'}
+      </ActionButton>
+    </div>
+  );
+
+  return (
+    <DashboardLayout
+      title={dashboardData.title}
+      subtitle={dashboardData.subtitle}
+      breadcrumbs={breadcrumbs}
+      actions={headerActions}
+    >
+      {/* Welcome Message */}
+      <div className="mb-8">
+        <div 
+          className="p-6 rounded-xl border"
+          style={{
+            background: COLORS.accent[100],
+            border: `1px solid ${COLORS.neutral[200]}`,
+          }}
+        >
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 
+                className="text-2xl font-bold mb-2"
+                style={{ color: COLORS.neutral[800] }}
+              >
+                Welcome back, {user?.profile?.firstName || user?.email.split('@')[0] || 'User'}! 👋
+              </h2>
+              <p 
+                className="text-lg mb-4"
+                style={{ color: COLORS.neutral[600] }}
+              >
+                You&apos;re logged in as a <strong>{getRoleDisplayName(user?.role || '')}</strong>
               </p>
               
               {/* Role-specific welcome message */}
-              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
-                {user?.role === 'SUPERADMIN' && (
-                  <p className="text-blue-800">
-                    🛡️ You have full administrative access to manage the IndoVendor platform.
-                  </p>
-                )}
-                {user?.role === 'VENDOR' && (
-                  <p className="text-blue-800">
-                    🏪 Start by completing your business profile and adding your services to attract clients.
-                  </p>
-                )}
-                {user?.role === 'CLIENT' && (
-                  <p className="text-blue-800">
-                    🎉 Ready to plan your next event? Browse our verified vendors and get quotes instantly.
-                  </p>
-                )}
-              </div>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <span className="text-2xl">✅</span>
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-green-800">Account Status</p>
-                      <p className="text-lg font-semibold text-green-900">
-                        {user?.isVerified ? 'Verified' : 'Pending Verification'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <span className="text-2xl">👤</span>
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-blue-800">Profile</p>
-                      <p className="text-lg font-semibold text-blue-900">
-                        {user?.profile?.firstName ? 'Complete' : 'Incomplete'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <span className="text-2xl">📅</span>
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-purple-800">Member Since</p>
-                      <p className="text-lg font-semibold text-purple-900">
-                        {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Today'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Role-specific Actions */}
-              <div>
-                <h2 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {getRoleDashboardLinks(user?.role || '').map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      className="block p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-center">
-                        <span className="text-2xl mr-3">{link.icon}</span>
-                        <div>
-                          <p className="font-medium text-gray-900">{link.name}</p>
-                          <p className="text-sm text-gray-500">Manage your {link.name.toLowerCase()}</p>
-                        </div>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Development Notice */}
-        <div className="px-4 sm:px-0">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <span className="text-yellow-600">🚧</span>
-              </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">
-                  Development Phase
-                </h3>
-                <p className="text-sm text-yellow-700 mt-1">
-                  This dashboard is in active development. More features and pages will be added soon.
-                  Current focus: <strong>Phase 2.2 - Frontend Auth Implementation ✅</strong>
+              {user?.role === 'SUPERADMIN' && (
+                <p style={{ color: COLORS.accent[700] }}>
+                  🛡️ You have full administrative access to manage the IndoVendor platform.
                 </p>
-              </div>
+              )}
+              {user?.role === 'VENDOR' && (
+                <p style={{ color: COLORS.secondary[700] }}>
+                  🏪 Your business dashboard is ready. Complete your profile to start attracting clients!
+                </p>
+              )}
+              {user?.role === 'CLIENT' && (
+                <p style={{ color: COLORS.primary[700] }}>
+                  🎉 Ready to plan your next event? Discover amazing vendors and create unforgettable moments.
+                </p>
+              )}
+            </div>
+            <div 
+              className="h-16 w-16 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg"
+              style={{
+                background: COLORS.primary[800],
+              }}
+            >
+              {user?.profile?.firstName?.[0] || user?.email[0].toUpperCase()}
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {dashboardData.metrics.map((metric, index) => (
+          <DashboardCard
+            key={index}
+            title={metric.title}
+            value={metric.value}
+            icon={metric.icon}
+            trend={metric.trend as 'up' | 'down' | 'neutral'}
+            trendValue={metric.trendValue}
+          />
+        ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="mb-8">
+        <h3 
+          className="text-xl font-bold mb-6"
+          style={{ color: COLORS.neutral[800] }}
+        >
+          Quick Actions
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {dashboardData.actions.map((action, index) => (
+            <div
+              key={index}
+              className={`p-6 rounded-xl border transition-all duration-200 ${
+                action.available 
+                  ? 'hover:shadow-lg hover:transform hover:scale-105 cursor-pointer' 
+                  : 'opacity-60 cursor-not-allowed'
+              }`}
+              style={{
+                background: action.available 
+                  ? COLORS.accent[100]
+                  : COLORS.neutral[100],
+                border: `1px solid ${action.available ? COLORS.primary[200] : COLORS.neutral[200]}`,
+              }}
+              onClick={() => action.available && action.href !== '#' && router.push(action.href)}
+            >
+              <div className="text-center">
+                <div className="text-4xl mb-3">{action.icon}</div>
+                <h4 
+                  className="font-semibold mb-2"
+                  style={{ 
+                    color: action.available ? COLORS.neutral[800] : COLORS.neutral[500] 
+                  }}
+                >
+                  {action.name}
+                </h4>
+                {!action.available && (
+                  <span 
+                    className="inline-block px-2 py-1 text-xs font-medium rounded"
+                    style={{
+                      backgroundColor: COLORS.neutral[200],
+                      color: COLORS.neutral[500],
+                    }}
+                  >
+                    Coming Soon
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Account Status */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <DashboardCard
+          title="Account Status"
+          value={user?.isVerified ? 'Verified' : 'Pending'}
+          icon="✅"
+          trend={user?.isVerified ? 'up' : 'neutral'}
+          trendValue={user?.isVerified ? 'Active' : 'Review'}
+        />
+        
+        <DashboardCard
+          title="Profile Completion"
+          value={user?.profile?.firstName ? '100%' : '60%'}
+          icon="👤"
+          trend={user?.profile?.firstName ? 'up' : 'neutral'}
+          trendValue={user?.profile?.firstName ? 'Complete' : 'In Progress'}
+        />
+        
+        <DashboardCard
+          title="Member Since"
+          value={user?.createdAt ? new Date(user.createdAt).toLocaleDateString('id-ID', { 
+            year: 'numeric',
+            month: 'short'
+          }) : 'Today'}
+          icon="📅"
+          trend="neutral"
+          trendValue="Active Member"
+        />
+      </div>
+
+      {/* Development Notice */}
+      <div 
+        className="mt-8 p-4 rounded-lg border"
+        style={{
+          backgroundColor: COLORS.secondary[50],
+          borderColor: COLORS.secondary[200],
+        }}
+      >
+        <div className="flex items-start space-x-3">
+          <span className="text-2xl">🚧</span>
+          <div>
+            <h4 
+              className="font-semibold mb-1"
+              style={{ color: COLORS.secondary[800] }}
+            >
+              Development Phase - Modern Dashboard UI ✅
+            </h4>
+            <p 
+              className="text-sm"
+              style={{ color: COLORS.secondary[700] }}
+            >
+              New modern dashboard with horizontal navigation, role-based permissions, and event/wedding theme is now live! 
+              More features will be added progressively.
+            </p>
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
   );
 }
 
