@@ -33,7 +33,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       <Navbar />
 
       {/* Main Content */}
-      <main className="pt-16">
+      <main className="pt-28">
         
         {/* Page Header */}
         {(title || breadcrumbs || actions) && (

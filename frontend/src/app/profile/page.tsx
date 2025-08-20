@@ -206,7 +206,7 @@ function ProfileContent() {
                     <Alert>
                       <AlertTriangle className="h-4 w-4" />
                       <AlertDescription>
-                        Your verification is under review. We'll notify you once it's complete.
+                        Your verification is under review. We&apos;ll notify you once it&apos;s complete.
                       </AlertDescription>
                     </Alert>
                   )}

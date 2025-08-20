@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Category, VendorCategory } from '@/types';
 import { useVendorCategories } from '@/hooks/useVendor';
+import { useCategories } from '@/hooks/useCategory';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';

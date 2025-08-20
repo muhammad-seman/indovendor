@@ -86,6 +86,30 @@ export interface Category {
   description?: string;
   icon?: string;
   isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateCategoryRequest {
+  name: string;
+  slug: string;
+  description?: string;
+  icon?: string;
+  isActive?: boolean;
+}
+
+export interface UpdateCategoryRequest {
+  name?: string;
+  slug?: string;
+  description?: string;
+  icon?: string;
+  isActive?: boolean;
+}
+
+export interface CategoryStats {
+  productCount: number;
+  vendorCount: number;
+  isActive: boolean;
 }
 
 export interface Product {
@@ -103,8 +127,130 @@ export interface Product {
   specifications?: string;
   termsConditions?: string;
   isActive: boolean;
-  vendor?: Vendor;
-  category?: Category;
+  createdAt: string;
+  updatedAt: string;
+  vendor?: {
+    id: string;
+    businessName: string;
+    userId: string;
+    verificationStatus: string;
+    isActive: boolean;
+  };
+  category?: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+}
+
+export interface ProductWithVendor extends Product {
+  vendor: {
+    id: string;
+    businessName: string;
+    userId: string;
+    verificationStatus: string;
+    isActive: boolean;
+  };
+  category: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+}
+
+export interface ProductImage {
+  id: string;
+  productId: string;
+  imageUrl: string;
+  alt?: string;
+  sortOrder: number;
+  createdAt: string;
+}
+
+export interface ProductFilters {
+  categoryId?: string;
+  vendorId?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  isActive?: boolean;
+  search?: string;
+  limit?: number;
+  offset?: number;
+  sortBy?: 'name' | 'basePrice' | 'createdAt';
+  sortOrder?: 'asc' | 'desc';
+}
+
+export interface CreateProductRequest {
+  categoryId: string;
+  name: string;
+  description?: string;
+  basePrice: number;
+  unitType?: string;
+  minOrder?: number;
+  maxOrder?: number;
+  discountPercentage?: number;
+  specifications?: string;
+  termsConditions?: string;
+  isActive?: boolean;
+}
+
+export interface UpdateProductRequest {
+  categoryId?: string;
+  name?: string;
+  description?: string;
+  basePrice?: number;
+  unitType?: string;
+  minOrder?: number;
+  maxOrder?: number;
+  discountPercentage?: number;
+  specifications?: string;
+  termsConditions?: string;
+  isActive?: boolean;
+}
+
+export interface ProductFormData {
+  categoryId: string;
+  name: string;
+  description: string;
+  basePrice: number;
+  unitType: string;
+  minOrder: number;
+  maxOrder: number;
+  discountPercentage: number;
+  specifications: string;
+  termsConditions: string;
+  isActive: boolean;
+}
+
+export interface ProductStats {
+  totalOrders: number;
+  averageRating: number;
+  totalReviews: number;
+  views: number;
+}
+
+export interface VendorProductStats {
+  totalProducts: number;
+  activeProducts: number;
+  totalOrders: number;
+  averageRating: number;
+}
+
+export interface ProductSearchResult {
+  products: ProductWithVendor[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
+export interface UploadProductImageRequest {
+  file: File;
+  alt?: string;
+  sortOrder?: number;
 }
 
 export interface Order {
