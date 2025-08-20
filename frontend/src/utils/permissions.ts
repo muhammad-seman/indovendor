@@ -150,12 +150,11 @@ export const canAccessRoute = (userRole: UserRole, route: string): boolean => {
     '/vendor/dashboard': ['product:read'],
     '/vendor/products': ['product:read'],
     '/vendor/orders': ['order:read'],
-    '/vendor/profile': ['profile:update'],
+    '/profile': ['profile:update'],
     
     '/client/dashboard': ['order:read'],
     '/client/browse': ['product:read'],
     '/client/orders': ['order:read'],
-    '/client/profile': ['profile:update'],
   };
   
   const requiredPermissions = routePermissions[route];

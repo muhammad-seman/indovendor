@@ -21,7 +21,7 @@ export const NAVIGATION_MENUS: Record<UserRole, MenuItem[]> = {
   SUPERADMIN: [
     {
       name: 'Dashboard',
-      href: '/admin/dashboard',
+      href: '/dashboard',
       icon: '📊',
       available: true,
     },
@@ -175,36 +175,22 @@ export const NAVIGATION_MENUS: Record<UserRole, MenuItem[]> = {
   VENDOR: [
     {
       name: 'Dashboard',
-      href: '/vendor/dashboard',
+      href: '/dashboard',
       icon: '🏪',
       available: true,
     },
     {
       name: 'Business Profile',
-      href: '/vendor/profile',
+      href: '/profile',
       icon: '🏢',
       available: true,
       subItems: [
         {
           name: 'Company Info',
-          href: '/vendor/profile',
+          href: '/profile',
           icon: 'ℹ️',
           description: 'Edit business information',
           available: true,
-        },
-        {
-          name: 'Service Categories',
-          href: '/vendor/profile/categories',
-          icon: '🎯',
-          description: 'Manage service categories',
-          available: false,
-        },
-        {
-          name: 'Coverage Area',
-          href: '/vendor/profile/coverage',
-          icon: '🗺️',
-          description: 'Set service coverage area',
-          available: false,
         },
       ],
     },
@@ -344,7 +330,7 @@ export const NAVIGATION_MENUS: Record<UserRole, MenuItem[]> = {
   CLIENT: [
     {
       name: 'Dashboard',
-      href: '/client/dashboard',
+      href: '/dashboard',
       icon: '🎉',
       available: true,
     },

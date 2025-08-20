@@ -57,7 +57,7 @@ function DashboardContent() {
             { title: 'Active Services', value: '12', icon: '📦', trend: 'neutral', trendValue: '12 live' },
           ],
           actions: [
-            { name: 'Business Profile', href: '/vendor/profile', icon: '🏢', available: true },
+            { name: 'Business Profile', href: '/profile', icon: '🏢', available: true },
             { name: 'My Services', href: '#', icon: '📦', available: false },
             { name: 'Order Management', href: '#', icon: '📋', available: false },
             { name: 'Financial Reports', href: '#', icon: '💰', available: false },
@@ -104,7 +104,7 @@ function DashboardContent() {
       <ActionButton
         variant="outline"
         size="sm"
-        onClick={() => router.push(`/${role?.toLowerCase()}/profile`)}
+        onClick={() => router.push('/profile')}
       >
         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -119,7 +119,7 @@ function DashboardContent() {
           // Navigate to main action based on role
           const mainActions = {
             'SUPERADMIN': '/admin/users',
-            'VENDOR': '/vendor/profile', 
+            'VENDOR': '/profile', 
             'CLIENT': '#'
           };
           router.push(mainActions[role as keyof typeof mainActions] || '#');

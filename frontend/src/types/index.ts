@@ -40,6 +40,43 @@ export interface Vendor {
   transportFeeInfo?: string;
   isActive: boolean;
   verificationStatus: 'PENDING' | 'VERIFIED' | 'REJECTED';
+  // Extended business information
+  website?: string;
+  whatsappNumber?: string;
+  establishedYear?: number;
+  businessAddress?: string;
+  portfolioImages?: string[];
+  taxIdFile?: string;
+  bankAccount?: string;
+  bankName?: string;
+  accountHolderName?: string;
+  businessHours?: string;
+  specializations?: string[];
+  teamSize?: number;
+  serviceAreas?: string[];
+  emergencyContact?: string;
+}
+
+export interface VendorCategory {
+  id: string;
+  vendorId: string;
+  categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  category?: Category;
+}
+
+export interface VendorCoverageArea {
+  id: string;
+  vendorId: string;
+  provinceId: string;
+  regencyId?: string;
+  customRadius?: number;
+  transportFee?: number;
+  createdAt: string;
+  updatedAt: string;
+  province?: Province;
+  regency?: Regency;
 }
 
 export interface Category {
@@ -167,4 +204,53 @@ export interface RegionData {
   regencies: Regency[];
   districts: District[];
   villages: Village[];
+}
+
+// Vendor Business Profile specific types
+export interface BusinessProfileFormData {
+  businessName: string;
+  businessType: string;
+  website?: string;
+  whatsappNumber?: string;
+  establishedYear?: number;
+  businessAddress: string;
+  description: string;
+  businessHours: string;
+  teamSize?: number;
+  emergencyContact?: string;
+  // Banking information
+  bankAccount?: string;
+  bankName?: string;
+  accountHolderName?: string;
+}
+
+export interface VendorCoverageFormData {
+  coverageAreas: {
+    provinceId: string;
+    regencyId?: string;
+    customRadius?: number;
+    transportFee?: number;
+  }[];
+}
+
+export interface DocumentUploadResponse {
+  fileUrl: string;
+}
+
+export interface PortfolioUploadResponse {
+  fileUrls: string[];
+}
+
+// API Request types for vendor operations
+export interface UpdateVendorCategoriesRequest {
+  categoryIds: string[];
+}
+
+export interface UpdateVendorCoverageRequest {
+  coverageAreas: {
+    provinceId: string;
+    regencyId?: string;
+    customRadius?: number;
+    transportFee?: number;
+  }[];
 }

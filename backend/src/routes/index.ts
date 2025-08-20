@@ -2,6 +2,9 @@ import { Router } from 'express';
 import { checkDatabaseHealth } from '@/utils/db-test';
 import authRoutes from './auth';
 import profileRoutes from './profile';
+import categoryRoutes from './category';
+import vendorRoutes from './vendor';
+import productRoutes from './product';
 
 const router = Router();
 
@@ -35,13 +38,14 @@ router.get('/health/database', async (req, res) => {
 // Use route modules
 router.use('/auth', authRoutes);
 router.use('/profile', profileRoutes);
+router.use('/categories', categoryRoutes);
+router.use('/vendor', vendorRoutes);
+router.use('/products', productRoutes);
 
 // TODO: Add more route imports and usage here
 // import userRoutes from './users';
-// import productRoutes from './products';
 // import orderRoutes from './orders';
 // router.use('/users', userRoutes);
-// router.use('/products', productRoutes);
 // router.use('/orders', orderRoutes);
 
 export default router;

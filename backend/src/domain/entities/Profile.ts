@@ -67,6 +67,50 @@ export interface VendorProfile {
   verificationStatus: 'PENDING' | 'VERIFIED' | 'REJECTED';
   createdAt: Date;
   updatedAt: Date;
+  
+  // Extended business information
+  website?: string;
+  whatsappNumber?: string;
+  establishedYear?: number;
+  teamSize?: string;
+  minimumBudget?: number;
+  businessAddress?: string;
+  businessProvinceId?: string;
+  businessRegencyId?: string;
+  businessDistrictId?: string;
+  businessVillageId?: string;
+  
+  // Business documents
+  businessLicenseFile?: string;
+  taxIdFile?: string;
+  portfolioImages?: string[];
+  
+  // Service information
+  serviceDescription?: string;
+  specializations?: string[];
+  workingHours?: string;
+  averageProjectDuration?: string;
+}
+
+export interface CreateVendorProfileRequest {
+  userId: string;
+  businessName: string;
+  businessType?: string;
+  description?: string;
+  website?: string;
+  whatsappNumber?: string;
+  establishedYear?: number;
+  teamSize?: string;
+  minimumBudget?: number;
+  businessAddress?: string;
+  businessProvinceId?: string;
+  businessRegencyId?: string;
+  businessDistrictId?: string;
+  businessVillageId?: string;
+  serviceDescription?: string;
+  specializations?: string[];
+  workingHours?: string;
+  averageProjectDuration?: string;
 }
 
 export interface UpdateVendorProfileRequest {
@@ -76,7 +120,29 @@ export interface UpdateVendorProfileRequest {
   description?: string;
   coverageRadius?: number;
   transportFeeInfo?: string;
+  website?: string;
+  whatsappNumber?: string;
+  establishedYear?: number;
+  teamSize?: string;
+  minimumBudget?: number;
+  businessAddress?: string;
+  businessProvinceId?: string;
+  businessRegencyId?: string;
+  businessDistrictId?: string;
+  businessVillageId?: string;
+  serviceDescription?: string;
+  specializations?: string[];
+  workingHours?: string;
+  averageProjectDuration?: string;
 }
+
+export interface VendorWithDetails extends VendorProfile {
+  categories?: VendorCategory[];
+  coverageAreas?: VendorCoverageArea[];
+}
+
+// Import types dari Category entity
+import type { VendorCategory, VendorCoverageArea } from './Category';
 
 export interface Region {
   id: string;

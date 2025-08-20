@@ -84,7 +84,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className = '' }) => {
           {/* Logo & Brand */}
           <div className="flex items-center flex-shrink-0">
             <Link 
-              href={`/${role.toLowerCase()}/dashboard`}
+              href="/dashboard"
               className="flex items-center space-x-2 transition-transform hover:scale-105"
             >
               <div 
@@ -291,7 +291,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className = '' }) => {
                 >
                   <div className="py-1">
                     <Link
-                      href={`/${role?.toLowerCase()}/profile`}
+                      href="/profile"
                       className="flex items-center space-x-2 px-4 py-2 text-sm hover:bg-black hover:bg-opacity-5 transition-colors"
                       style={{ color: COLORS.neutral[700] }}
                       onClick={() => setActiveDropdown(null)}
@@ -302,7 +302,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className = '' }) => {
                       <span>My Profile</span>
                     </Link>
                     <Link
-                      href={`/${role?.toLowerCase()}/settings`}
+                      href="/settings"
                       className="flex items-center space-x-2 px-4 py-2 text-sm hover:bg-black hover:bg-opacity-5 transition-colors"
                       style={{ color: COLORS.neutral[700] }}
                       onClick={() => setActiveDropdown(null)}
